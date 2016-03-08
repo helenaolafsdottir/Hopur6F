@@ -16,7 +16,9 @@ public class UserInterface {
 
 	private JFrame frame;
 	private JTextField textField;
-	private JTextField testTextField;
+	private JComboBox jBrottfararstadurComboBox;
+	private JComboBox jAfangastadurComboBox;
+	private JComboBox jFjoldiComboBox;
 	/**
 	 * Launch the application.
 	 */
@@ -90,38 +92,24 @@ public class UserInterface {
 		frame.getContentPane().add(jFjoldiLabel);
 		
 		String[] Brottfararstadir = {"Reykjavík", "Akureyri", "Egilsstaðir", "Ísafjörður"};
-		JComboBox jBrottfararstadurComboBox = new JComboBox(Brottfararstadir);
-		jBrottfararstadurComboBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				jBrottfararstadurComboBoxActionPerformed(e);
-			}
-		});
+		jBrottfararstadurComboBox = new JComboBox(Brottfararstadir);
 		jBrottfararstadurComboBox.setBounds(236, 105, 156, 32);
 		frame.getContentPane().add(jBrottfararstadurComboBox);
 		
 		String[] Afangastadir = {"Reykjavík", "Akureyri", "Egilsstaðir", "Ísafjörður"};
-		JComboBox jAfangastadurComboBox = new JComboBox(Afangastadir);
+		jAfangastadurComboBox = new JComboBox(Afangastadir);
 		jAfangastadurComboBox.setBounds(236, 143, 156, 32);
 		frame.getContentPane().add(jAfangastadurComboBox);
 		
-		testTextField = new JTextField();
-		testTextField.setBounds(199, 321, 97, 32);
-		frame.getContentPane().add(testTextField);
-		testTextField.setColumns(10);
-		
 		String[] fjoldiFerdamanna = {"1", "2", "3", "4"};
-		JComboBox jFjoldiComboBox = new JComboBox(fjoldiFerdamanna);
+		jFjoldiComboBox = new JComboBox(fjoldiFerdamanna);
 		jFjoldiComboBox.setBounds(128, 196, 69, 32);
 		frame.getContentPane().add(jFjoldiComboBox);
 		
 	} 
-	private void jBrottfararstadurComboBoxActionPerformed(java.awt.event.ActionEvent e) { 
-			JComboBox cb = (JComboBox)e.getSource();
-			String brottfor =  (String)cb.getSelectedItem();
-			if(brottfor.equals("Reykjavík")){???};
-	}
     private void jAframButtonActionPerformed(java.awt.event.ActionEvent e) { 
-		testTextField.setText(Arrays.toString((String[])jBrottfararstadurComboBox.getSelectedItem()));
-        //String text = "brottfararstadur: " + brottfararstadur + "afangastadur: " + afangastadur + "   :)";
+		String brottfararstadur = jBrottfararstadurComboBox.getSelectedItem().toString();
+		String afangastadur = jAfangastadurComboBox.getSelectedItem().toString();
+		String fjoldiFerdmanna = jFjoldiComboBox.getSelectedItem().toString();
     }
 }
