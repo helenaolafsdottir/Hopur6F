@@ -3,19 +3,20 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import java.awt.BorderLayout;
-import javax.swing.JPasswordField;
 import javax.swing.JButton;
-import javax.swing.SwingConstants;
 import java.awt.Choice;
 import javax.swing.JRadioButton;
-import javax.swing.JTable;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JComboBox;
 
 public class UserInterface {
 
 	private JFrame frame;
 	private JTextField textField;
+	private JTextField testTextField;
 	/**
 	 * Launch the application.
 	 */
@@ -54,25 +55,14 @@ public class UserInterface {
 		frame.getContentPane().add(textField, BorderLayout.WEST);
 		frame.getContentPane().setLayout(null);
 		
-		JButton jAframBtn = new JButton("\u00C1fram");
-		jAframBtn.setBounds(0, 444, 624, 35);
-		frame.getContentPane().add(jAframBtn);
-		
-		Choice jBrottfararstadurChoice = new Choice();
-		jBrottfararstadurChoice.add("Reykjavik");
-		jBrottfararstadurChoice.add("Ísafjörður");
-		jBrottfararstadurChoice.add("Akureyri");
-		jBrottfararstadurChoice.add("Egilsstaðir");
-		jBrottfararstadurChoice.setBounds(211, 105, 196, 32);
-		frame.getContentPane().add(jBrottfararstadurChoice);
-		
-		Choice jAfangastadurChoice = new Choice();
-		jAfangastadurChoice.add("Reykjavik");
-		jAfangastadurChoice.add("Ísafjörður");
-		jAfangastadurChoice.add("Akureyri");
-		jAfangastadurChoice.add("Egilsstaðir");
-		jAfangastadurChoice.setBounds(211, 143, 196, 32);
-		frame.getContentPane().add(jAfangastadurChoice);
+		JButton jAframButton = new JButton("\u00C1fram");
+		jAframButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				jAframButtonActionPerformed(e);
+			}
+		});
+		jAframButton.setBounds(0, 444, 624, 35);
+		frame.getContentPane().add(jAframButton);
 		
 		JRadioButton jOneWayRadio = new JRadioButton("One Way");
 		jOneWayRadio.setBounds(406, 181, 201, 35);
@@ -107,5 +97,24 @@ public class UserInterface {
 		jFjoldiChoice.setBounds(132, 200, 73, 32);
 		frame.getContentPane().add(jFjoldiChoice);
 		
+		String[] Brottfararstadir = { "Reykjavík", "Akureyri", "Egilsstaðir", "Ísafjörður"};
+		JComboBox jBrottfararstadurComboBox = new JComboBox(Brottfararstadir);
+		jBrottfararstadurComboBox.setBounds(236, 105, 156, 32);
+		frame.getContentPane().add(jBrottfararstadurComboBox);
+		
+		String[] Afangastadir = { "Reykjavík", "Akureyri", "Egilsstaðir", "Ísafjörður"};
+		JComboBox jAfangastadurComboBox = new JComboBox(Afangastadir);
+		jAfangastadurComboBox.setBounds(236, 143, 156, 32);
+		frame.getContentPane().add(jAfangastadurComboBox);
+		
+		testTextField = new JTextField();
+		testTextField.setBounds(199, 321, 97, 32);
+		frame.getContentPane().add(testTextField);
+		testTextField.setColumns(10);
+		
 	}
+    private void jAframButtonActionPerformed(java.awt.event.ActionEvent e) { 
+    	testTextField.setText(jBrottfararstadurComboBox.getSelectedItem().toString());
+        String text = "brottfararstadur: " + brottfararstadur + "afangastadur: " + afangastadur + "   :)";
+    }                                               
 }
