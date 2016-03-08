@@ -110,8 +110,8 @@ public class UserInterface {
 		
 	} 
     private void jAframButtonActionPerformed(java.awt.event.ActionEvent e) { 
-		String brottfararstadur = jBrottfararstadurComboBox.getSelectedItem().toString();
-		String afangastadur = jAfangastadurComboBox.getSelectedItem().toString();
-		String fjoldiFerdmanna = jFjoldiComboBox.getSelectedItem().toString();
+		String departureLocation = jBrottfararstadurComboBox.getSelectedItem().toString();
+		String arrivalLocation = jAfangastadurComboBox.getSelectedItem().toString();
+		String numberOfPassengers = jFjoldiComboBox.getSelectedItem().toString();
     }
 }
