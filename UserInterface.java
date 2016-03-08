@@ -4,7 +4,6 @@ import javax.swing.JFrame;
 import javax.swing.JTextField;
 import java.awt.BorderLayout;
 import javax.swing.JButton;
-import java.awt.Choice;
 import javax.swing.JRadioButton;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -72,37 +71,29 @@ public class UserInterface {
 		jRoundTripRadio.setBounds(406, 229, 201, 35);
 		frame.getContentPane().add(jRoundTripRadio);
 		
-		JLabel lblBkauFlug = new JLabel("B\u00F3ka\u00F0u flug! :)");
+		JLabel lblBkauFlug = new JLabel("B√≥ka√∞u flug! :)");
 		lblBkauFlug.setFont(new Font("Tahoma", Font.BOLD, 30));
 		lblBkauFlug.setBounds(192, 21, 242, 59);
 		frame.getContentPane().add(lblBkauFlug);
 		
-		JLabel jBrottfararstaurLabel = new JLabel("Brottfararsta\u00F0ur");
-		jBrottfararstaurLabel.setBounds(66, 105, 149, 32);
-		frame.getContentPane().add(jBrottfararstaurLabel);
+		JLabel jBrottfararstadurLabel = new JLabel("Brottfararsta√∞ur:");
+		jBrottfararstadurLabel.setBounds(66, 105, 149, 32);
+		frame.getContentPane().add(jBrottfararstadurLabel);
 		
-		JLabel jAfangastadurLabel = new JLabel("\u00C1fangasta\u00F0ur");
+		JLabel jAfangastadurLabel = new JLabel("√Åfangasta√∞ur:");
 		jAfangastadurLabel.setBounds(66, 143, 139, 32);
 		frame.getContentPane().add(jAfangastadurLabel);
 		
-		JLabel jFjoldiLabel = new JLabel("Fj\u00F6ldi:");
+		JLabel jFjoldiLabel = new JLabel("Fj√∂ldi:");
 		jFjoldiLabel.setBounds(66, 200, 57, 32);
 		frame.getContentPane().add(jFjoldiLabel);
 		
-		Choice jFjoldiChoice = new Choice();
-		jFjoldiChoice.add("1");
-		jFjoldiChoice.add("2");
-		jFjoldiChoice.add("3");
-		jFjoldiChoice.add("4");
-		jFjoldiChoice.setBounds(132, 200, 73, 32);
-		frame.getContentPane().add(jFjoldiChoice);
-		
-		String[] Brottfararstadir = { "ReykjavÌk", "Akureyri", "Egilsstair", "Õsafjˆrur"};
+		String[] Brottfararstadir = {"Reykjav√≠k", "Akureyri", "Egilssta√∞ir", "√çsafj√∂r√∞ur"};
 		JComboBox jBrottfararstadurComboBox = new JComboBox(Brottfararstadir);
 		jBrottfararstadurComboBox.setBounds(236, 105, 156, 32);
 		frame.getContentPane().add(jBrottfararstadurComboBox);
 		
-		String[] Afangastadir = { "ReykjavÌk", "Akureyri", "Egilsstair", "Õsafjˆrur"};
+		String[] Afangastadir = {"Reykjav√≠k", "Akureyri", "Egilssta√∞ir", "√çsafj√∂r√∞ur"};
 		JComboBox jAfangastadurComboBox = new JComboBox(Afangastadir);
 		jAfangastadurComboBox.setBounds(236, 143, 156, 32);
 		frame.getContentPane().add(jAfangastadurComboBox);
@@ -112,9 +103,14 @@ public class UserInterface {
 		frame.getContentPane().add(testTextField);
 		testTextField.setColumns(10);
 		
+		String[] fjoldiFerdamanna = { "1", "2", "3", "4"};
+		JComboBox jFjoldiComboBox = new JComboBox(fjoldiFerdamanna);
+		jFjoldiComboBox.setBounds(128, 196, 69, 32);
+		frame.getContentPane().add(jFjoldiComboBox);
+		
 	}
     private void jAframButtonActionPerformed(java.awt.event.ActionEvent e) { 
-    	testTextField.setText(jBrottfararstadurComboBox.getSelectedItem().toString());
+		testTextField.setText(jBrottfararstadurComboBox.getSelectedItem().toString());
         String text = "brottfararstadur: " + brottfararstadur + "afangastadur: " + afangastadur + "   :)";
     }                                               
 }
