@@ -4,4 +4,7 @@ public class Flight {
 		SqliteConnection sc = new SqliteConnection();
 		sc.dbConnector();
 	}
+	public Flight(){
+		
+	}
 }
