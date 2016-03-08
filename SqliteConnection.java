@@ -1,3 +1,5 @@
+package Hopur6F;
+
 import java.sql.*;//adds everything related to sql
 import javax.swing.*;
 public class SqliteConnection {
@@ -7,7 +9,7 @@ public class SqliteConnection {
 	{
 		try{
 			Class.forName("org.sqlite.JDBC");
-			Connection conn = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\helen_000\\Documents\\Helena\\HÍ\\2. ár vor\\Þróun Hugbúnaðar\\FlightData.sqlite");
+			Connection conn = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\helen_000\\Documents\\Helena\\Hï¿½\\2. ï¿½r vor\\ï¿½rï¿½un Hugbï¿½naï¿½ar\\FlightData.sqlite");
 			System.out.println("working!");
 			return conn;
 			
