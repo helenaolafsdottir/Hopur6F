@@ -1,6 +1,7 @@
-package Hopur6F;
-
-
 public class Flight {
-	//halloooo
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		SqliteConnection sc = new SqliteConnection();
+		sc.dbConnector();
+	}
 }

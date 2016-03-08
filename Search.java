@@ -1,6 +1,3 @@
-package Hopur6F;
-
-
-public class Search {
-	//jakdl�sfjkadsl�
+public class Search{
+	
 }
