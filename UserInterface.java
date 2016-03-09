@@ -1,4 +1,3 @@
-package Hopur6F;
 
 import java.awt.EventQueue;
 
@@ -13,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import java.util.Arrays;
+import java.util.ArrayList;
 
 public class UserInterface {
 
@@ -21,6 +21,9 @@ public class UserInterface {
 	private JComboBox jBrottfararstadurComboBox;
 	private JComboBox jAfangastadurComboBox;
 	private JComboBox jFjoldiComboBox;
+	
+	Search mySearch = new Search();
+	
 	/**
 	 * Launch the application.
 	 */
@@ -112,6 +115,7 @@ public class UserInterface {
     private void jAframButtonActionPerformed(java.awt.event.ActionEvent e) { 
 		String departureLocation = jBrottfararstadurComboBox.getSelectedItem().toString();
 		String arrivalLocation = jAfangastadurComboBox.getSelectedItem().toString();
-		String numberOfPassengers = jFjoldiComboBox.getSelectedItem().toString();
+		int numberOfPassengers = Integer.parseInt(jFjoldiComboBox.getSelectedItem().toString());
+		ArrayList<Flight> flights = mySearch.gettingCorrectSearchResults(departureLocation, arrivalLocation, numberOfPassengers);
     }
 }

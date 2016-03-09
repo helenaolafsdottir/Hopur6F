@@ -1,5 +1,5 @@
-package Hopur6F;
-
 public class Search{
-	//thetta er tregt
+	public ArrayList<Flight> gettingCorrectSearchResults(String departureLocation, String arrivalLocation, int numberOfPassengers){
+		return ArrayList<Flight>();
+	}
 }
