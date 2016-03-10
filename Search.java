@@ -26,7 +26,7 @@ public class Search{
 			prepState.setString(2, departureLocation);
 			prepState.setString(3, arrivalLocation);
 			prepState.setInt(4, numberOfPassengers);
-			
+//hæ arna
 			countedPrepState.setString(1, dateString);
 			countedPrepState.setString(2, departureLocation);
 			countedPrepState.setString(3, arrivalLocation);
