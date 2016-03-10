@@ -21,6 +21,7 @@ public class Search{
 			
 			String dateString = dateToString(date);
 			
+			//Stingum inn fyrir spurningamerkin í SQL statementinu.
 			prepState.setString(1, dateString);
 			prepState.setString(2, departureLocation);
 			prepState.setString(3, arrivalLocation);
@@ -31,6 +32,7 @@ public class Search{
 			countedPrepState.setString(3, arrivalLocation);
 			countedPrepState.setInt(4, numberOfPassengers);
 			
+			//Fáum gögnin frá gagnagrunninum
 			ResultSet flightResultSet = prepState.executeQuery();
 			ResultSet countResultSet = countedPrepState.executeQuery();
 			
@@ -68,7 +70,7 @@ public class Search{
 	
 	
 	public String dateToString(Date date){
-	    DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+	    DateFormat df = new SimpleDateFormat("dd.MM.yyyy"); //Veit ekki hvort þetta virkar
 	    String dateString = df.format(date);
 	    return dateString;
 	}
