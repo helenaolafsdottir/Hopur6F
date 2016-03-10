@@ -13,6 +13,9 @@ import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import java.util.Arrays;
 import java.util.ArrayList;
+import com.toedter.calendar.JCalendar;
+import com.toedter.calendar.JDateChooser;
+import java.util.Date;
 
 public class UserInterface {
 
@@ -21,6 +24,7 @@ public class UserInterface {
 	private JComboBox jBrottfararstadurComboBox;
 	private JComboBox jAfangastadurComboBox;
 	private JComboBox jFjoldiComboBox;
+	private JDateChooser jDepartureDateChooser;
 	
 	Search mySearch = new Search();
 	
@@ -71,14 +75,6 @@ public class UserInterface {
 		jAframButton.setBounds(0, 444, 624, 35);
 		frame.getContentPane().add(jAframButton);
 		
-		JRadioButton jOneWayRadio = new JRadioButton("One Way");
-		jOneWayRadio.setBounds(406, 181, 201, 35);
-		frame.getContentPane().add(jOneWayRadio);
-		
-		JRadioButton jRoundTripRadio = new JRadioButton("Round Trip");
-		jRoundTripRadio.setBounds(406, 229, 201, 35);
-		frame.getContentPane().add(jRoundTripRadio);
-		
 		JLabel lblBkauFlug = new JLabel("Bókaðu flug! :)");
 		lblBkauFlug.setFont(new Font("Tahoma", Font.BOLD, 30));
 		lblBkauFlug.setBounds(192, 21, 242, 59);
@@ -93,7 +89,7 @@ public class UserInterface {
 		frame.getContentPane().add(jAfangastadurLabel);
 		
 		JLabel jFjoldiLabel = new JLabel("Fjöldi:");
-		jFjoldiLabel.setBounds(66, 200, 57, 32);
+		jFjoldiLabel.setBounds(70, 300, 57, 32);
 		frame.getContentPane().add(jFjoldiLabel);
 		
 		String[] Brottfararstadir = {"Reykjavík", "Akureyri", "Egilsstaðir", "Ísafjörður"};
@@ -108,14 +104,23 @@ public class UserInterface {
 		
 		String[] fjoldiFerdamanna = {"1", "2", "3", "4"};
 		jFjoldiComboBox = new JComboBox(fjoldiFerdamanna);
-		jFjoldiComboBox.setBounds(128, 196, 69, 32);
+		jFjoldiComboBox.setBounds(135, 300, 69, 32);
 		frame.getContentPane().add(jFjoldiComboBox);
+		
+		JDateChooser jDepartureDateChooser = new JDateChooser();
+		jDepartureDateChooser.setBounds(236, 218, 156, 32);
+		frame.getContentPane().add(jDepartureDateChooser);
+		
+		JLabel jDatelabel = new JLabel("Dagsetning:");
+		jDatelabel.setBounds(66, 218, 139, 32);
+		frame.getContentPane().add(jDatelabel);
 		
 	} 
     private void jAframButtonActionPerformed(java.awt.event.ActionEvent e) { 
 		String departureLocation = jBrottfararstadurComboBox.getSelectedItem().toString();
 		String arrivalLocation = jAfangastadurComboBox.getSelectedItem().toString();
 		int numberOfPassengers = Integer.parseInt(jFjoldiComboBox.getSelectedItem().toString());
-		ArrayList<Flight> flights = mySearch.gettingCorrectSearchResults(departureLocation, arrivalLocation, numberOfPassengers);
+		Date date = jDepartureDateChooser.getDate();
+		ArrayList<Flight> flights = mySearch.gettingCorrectSearchResults(departureLocation, arrivalLocation, numberOfPassengers, date);
     }
 }
