@@ -1,3 +1,5 @@
+package Hopur6F;
+
 import java.util.*;
 
 public class Flight {

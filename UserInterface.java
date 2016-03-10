@@ -1,3 +1,5 @@
+package Hopur6F;
+
 
 import java.awt.EventQueue;
 
@@ -108,6 +110,10 @@ public class UserInterface {
 		frame.getContentPane().add(jFjoldiComboBox);
 		
 		JDateChooser jDepartureDateChooser = new JDateChooser();
+		jDepartureDateChooser.getCalendarButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		jDepartureDateChooser.setBounds(236, 218, 156, 32);
 		frame.getContentPane().add(jDepartureDateChooser);
 		
