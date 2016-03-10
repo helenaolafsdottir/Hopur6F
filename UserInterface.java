@@ -9,6 +9,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import java.util.Arrays;
@@ -16,17 +18,22 @@ import java.util.ArrayList;
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
 import java.util.Date;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
+
 
 public class UserInterface {
 
+	private JTextField textField_1;
 	private JFrame frame;
-	private JTextField textField;
 	private JComboBox jBrottfararstadurComboBox;
 	private JComboBox jAfangastadurComboBox;
 	private JComboBox jFjoldiComboBox;
 	private JDateChooser jDepartureDateChooser;
+	private String dateString;
 	
 	Search mySearch = new Search();
+
 	
 	/**
 	 * Launch the application.
@@ -59,19 +66,13 @@ public class UserInterface {
 		frame.setBounds(100, 100, 650, 550);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		textField = new JTextField();
-		frame.getContentPane().add(textField, BorderLayout.CENTER);
-		
-		textField = new JTextField();
-		frame.getContentPane().add(textField, BorderLayout.WEST);
-		frame.getContentPane().setLayout(null);
-		
 		JButton jAframButton = new JButton("\u00C1fram");
 		jAframButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				jAframButtonActionPerformed(e);
 			}
 		});
+		frame.getContentPane().setLayout(null);
 		jAframButton.setBounds(0, 444, 624, 35);
 		frame.getContentPane().add(jAframButton);
 		
@@ -108,6 +109,12 @@ public class UserInterface {
 		frame.getContentPane().add(jFjoldiComboBox);
 		
 		JDateChooser jDepartureDateChooser = new JDateChooser();
+		jDepartureDateChooser.addPropertyChangeListener(new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent evt) {
+				Date date = jDepartureDateChooser.getDate();
+				dateString = String.format("%1$td.%1$tm.%1$tY", date);
+			}
+		});
 		jDepartureDateChooser.setBounds(236, 218, 156, 32);
 		frame.getContentPane().add(jDepartureDateChooser);
 		
@@ -120,7 +127,7 @@ public class UserInterface {
 		String departureLocation = jBrottfararstadurComboBox.getSelectedItem().toString();
 		String arrivalLocation = jAfangastadurComboBox.getSelectedItem().toString();
 		int numberOfPassengers = Integer.parseInt(jFjoldiComboBox.getSelectedItem().toString());
-		Date date = jDepartureDateChooser.getDate();
-		ArrayList<Flight> flights = mySearch.gettingCorrectSearchResults(departureLocation, arrivalLocation, numberOfPassengers, date);
+		ArrayList<Flight> flights = mySearch.gettingCorrectSearchResults(departureLocation, arrivalLocation, numberOfPassengers, dateString);
     }
+
 }
