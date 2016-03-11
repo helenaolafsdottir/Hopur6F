@@ -1,8 +1,5 @@
 import java.util.ArrayList;
-import java.util.Date;
 import java.sql.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 public class Search{
 	Connection c;
@@ -13,11 +10,11 @@ public class Search{
 		try {
 			c = DriverManager.getConnection("jdbc:sqlite:Verkefni6Flug.db");
 			
-			String selectStatement = "SELECT * FROM Flights WHERE DepartureDate = ? AND DepartureLocation = ? AND arrivalLocation = ? AND TicketsAvailable >= ? ";
-			String countSelectStatement = "SELECT COUNT(*) FROM Flights WHERE DepartureDate = ? AND DepartureLocation = ? AND arrivalLocation = ? AND TicketsAvailable >= ? ";
+			String select = "SELECT * FROM Flights WHERE DepartureDate = ? AND DepartureLocation = ? AND arrivalLocation = ? AND TicketsAvailable >= ? ";
+			String countSelect = "SELECT COUNT(*) FROM Flights WHERE DepartureDate = ? AND DepartureLocation = ? AND arrivalLocation = ? AND TicketsAvailable >= ? ";
 			
-			PreparedStatement prepState = c.prepareStatement(selectStatement);
-			PreparedStatement countedPrepState = c.prepareStatement(countSelectStatement);
+			PreparedStatement prepState = c.prepareStatement(select);
+			PreparedStatement countedPrepState = c.prepareStatement(countSelect);
 			
 			System.out.println(dateString);
 			System.out.println(departureLocation);
@@ -25,9 +22,9 @@ public class Search{
 			System.out.println(numberOfPassengers);
 			
 			//Stingum inn fyrir spurningamerkin í SQL statementinu.
-			prepState.setString(1, "'" + dateString + "'");
-			prepState.setString(2, "'" + departureLocation + "'");
-			prepState.setString(3, "'" + arrivalLocation + "'");
+			prepState.setString(1, dateString);
+			prepState.setString(2, departureLocation);
+			prepState.setString(3, arrivalLocation);
 			prepState.setInt(4, numberOfPassengers);
 				
 			countedPrepState.setString(1, "'" + dateString + "'");
@@ -35,13 +32,17 @@ public class Search{
 			countedPrepState.setString(3, "'" + arrivalLocation + "'");
 			countedPrepState.setInt(4, numberOfPassengers);
 			
+			System.out.println(prepState.toString());
+			
 			//Fáum gögnin frá gagnagrunninum
+//            ResultSet flightResultSet = c.prepareStatement("SELECT * FROM Flights").executeQuery();
 			ResultSet flightResultSet = prepState.executeQuery();
 			ResultSet countResultSet = countedPrepState.executeQuery();
 			
 			int numberOfResults = countResultSet.getInt("COUNT(*)");
 			
 			System.out.println(numberOfResults);
+			System.out.println(flightResultSet.toString());
 			
 			flights = new ArrayList<Flight>(numberOfResults);
 			
@@ -50,10 +51,10 @@ public class Search{
 				
 				System.out.println("hæ!");
 				Flight flight = new Flight();
-				flight.setDepartureDate(flightResultSet.getString(dateString));
-				flight.setDepartureLocation(flightResultSet.getString(departureLocation));
-				flight.setArrivalLocation(flightResultSet.getString(arrivalLocation));
-				flight.setNumberOfPassengers(flightResultSet.getInt(numberOfPassengers));
+				flight.setDepartureDate(dateString);
+				flight.setDepartureLocation(departureLocation);
+				flight.setArrivalLocation(arrivalLocation);
+				flight.setNumberOfPassengers(numberOfPassengers);
 				flight.setTotalPrice(flightResultSet.getInt("SeatPrice")*numberOfPassengers);
 				flight.setDepartureTime(flightResultSet.getString("DepartureTime"));
 				flight.setArrivalTime(flightResultSet.getString("ArrivalTime"));
@@ -62,7 +63,7 @@ public class Search{
 				flight.setAirline(flightResultSet.getString("Airline"));
 				flight.setMaximumLuggageWeight(flightResultSet.getInt("MaximumLuggageWeight"));
 				
-				//System.out.println(flight);
+				System.out.println(flight.getFoodInfo());
 			
 				flights.add(flight);
 			}
@@ -74,7 +75,7 @@ public class Search{
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
 		}
-		//System.out.println(flights);
+		System.out.println(flights);
 		return flights;
 	}
 
