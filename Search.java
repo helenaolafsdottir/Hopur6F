@@ -11,9 +11,9 @@ public class Search{
 	
 	private ArrayList<Flight> flights;
 		
-	public ArrayList<Flight> gettingCorrectSearchResults(String departureLocation, String arrivalLocation, int numberOfPassengers, Date date){
+	public ArrayList<Flight> gettingCorrectSearchResults(String departureLocation, String arrivalLocation, int numberOfPassengers, String dateString){
 		try {
-			c = DriverManager.getConnection("jdbc:sqlite:Verkefni6F.db");
+			c = DriverManager.getConnection("jdbc:sqlite:Verkefni6Flug.db");
 			
 			String selectStatement = "SELECT * FROM Flights WHERE DepartureDate = ? AND DepartureLocation = ? AND arrivalLocation = ? AND TicketsAvailable >= ? ";
 			String countSelectStatement = "SELECT COUNT(*) FROM Flights WHERE DepartureDate = ? AND DepartureLocation = ? AND arrivalLocation = ? AND TicketsAvailable >= ? ";
@@ -21,14 +21,12 @@ public class Search{
 			PreparedStatement prepState = c.prepareStatement(selectStatement);
 			PreparedStatement countedPrepState = c.prepareStatement(countSelectStatement);
 			
-			String dateString = dateToString(date);
-			
 			//Stingum inn fyrir spurningamerkin í SQL statementinu.
 			prepState.setString(1, dateString);
 			prepState.setString(2, departureLocation);
 			prepState.setString(3, arrivalLocation);
 			prepState.setInt(4, numberOfPassengers);
-//hæ arna
+
 			countedPrepState.setString(1, dateString);
 			countedPrepState.setString(2, departureLocation);
 			countedPrepState.setString(3, arrivalLocation);
@@ -57,6 +55,8 @@ public class Search{
 				flight.setAirline(flightResultSet.getString("Airline"));
 				flight.setMaximumLuggageWeight(flightResultSet.getInt("MaximumLuggageWeight"));
 				
+				System.out.println(flight);
+			
 				flights.add(flight);
 			}
 			
@@ -69,11 +69,5 @@ public class Search{
 		}
 		return flights;
 	}
-	
-	
-	public String dateToString(Date date){
-	    DateFormat df = new SimpleDateFormat("dd.MM.yyyy"); //Veit ekki hvort þetta virkar
-	    String dateString = df.format(date);
-	    return dateString;
-	}
+
 }

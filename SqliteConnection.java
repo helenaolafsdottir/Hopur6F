@@ -1,4 +1,4 @@
-package Hopur6F;
+
 
 import java.sql.*;//adds everything related to sql
 import javax.swing.*;
