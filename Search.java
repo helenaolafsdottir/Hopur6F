@@ -1,5 +1,3 @@
-package Hopur6F;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.sql.*;
@@ -21,15 +19,20 @@ public class Search{
 			PreparedStatement prepState = c.prepareStatement(selectStatement);
 			PreparedStatement countedPrepState = c.prepareStatement(countSelectStatement);
 			
+			System.out.println(dateString);
+			System.out.println(departureLocation);
+			System.out.println(arrivalLocation);
+			System.out.println(numberOfPassengers);
+			
 			//Stingum inn fyrir spurningamerkin í SQL statementinu.
-			prepState.setString(1, dateString);
-			prepState.setString(2, departureLocation);
-			prepState.setString(3, arrivalLocation);
+			prepState.setString(1, "'" + dateString + "'");
+			prepState.setString(2, "'" + departureLocation + "'");
+			prepState.setString(3, "'" + arrivalLocation + "'");
 			prepState.setInt(4, numberOfPassengers);
-
-			countedPrepState.setString(1, dateString);
-			countedPrepState.setString(2, departureLocation);
-			countedPrepState.setString(3, arrivalLocation);
+				
+			countedPrepState.setString(1, "'" + dateString + "'");
+			countedPrepState.setString(2, "'" + departureLocation + "'");
+			countedPrepState.setString(3, "'" + arrivalLocation + "'");
 			countedPrepState.setInt(4, numberOfPassengers);
 			
 			//Fáum gögnin frá gagnagrunninum
@@ -38,10 +41,14 @@ public class Search{
 			
 			int numberOfResults = countResultSet.getInt("COUNT(*)");
 			
+			System.out.println(numberOfResults);
+			
 			flights = new ArrayList<Flight>(numberOfResults);
 			
 			//Búum til flughluti með þeim upplýsingu sem þarf að birta notanda
 			while(flightResultSet.next()){
+				
+				System.out.println("hæ!");
 				Flight flight = new Flight();
 				flight.setDepartureDate(flightResultSet.getString(dateString));
 				flight.setDepartureLocation(flightResultSet.getString(departureLocation));
@@ -55,7 +62,7 @@ public class Search{
 				flight.setAirline(flightResultSet.getString("Airline"));
 				flight.setMaximumLuggageWeight(flightResultSet.getInt("MaximumLuggageWeight"));
 				
-				System.out.println(flight);
+				//System.out.println(flight);
 			
 				flights.add(flight);
 			}
@@ -67,6 +74,7 @@ public class Search{
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
 		}
+		//System.out.println(flights);
 		return flights;
 	}
 
