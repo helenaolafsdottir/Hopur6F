@@ -16,11 +16,6 @@ public class Search{
 			PreparedStatement prepState = c.prepareStatement(select);
 			PreparedStatement countedPrepState = c.prepareStatement(countSelect);
 			
-			System.out.println(dateString);
-			System.out.println(departureLocation);
-			System.out.println(arrivalLocation);
-			System.out.println(numberOfPassengers);
-			
 			//Stingum inn fyrir spurningamerkin í SQL statementinu.
 			prepState.setString(1, dateString);
 			prepState.setString(2, departureLocation);
@@ -32,25 +27,19 @@ public class Search{
 			countedPrepState.setString(3, "'" + arrivalLocation + "'");
 			countedPrepState.setInt(4, numberOfPassengers);
 			
-			System.out.println(prepState.toString());
-			
 			//Fáum gögnin frá gagnagrunninum
-//            ResultSet flightResultSet = c.prepareStatement("SELECT * FROM Flights").executeQuery();
 			ResultSet flightResultSet = prepState.executeQuery();
 			ResultSet countResultSet = countedPrepState.executeQuery();
 			
 			int numberOfResults = countResultSet.getInt("COUNT(*)");
-			
-			System.out.println(numberOfResults);
-			System.out.println(flightResultSet.toString());
-			
+
 			flights = new ArrayList<Flight>(numberOfResults);
 			
 			//Búum til flughluti með þeim upplýsingu sem þarf að birta notanda
 			while(flightResultSet.next()){
-				
-				System.out.println("hæ!");
+
 				Flight flight = new Flight();
+				flight.setID(flightResultSet.getInt("ID"));
 				flight.setDepartureDate(dateString);
 				flight.setDepartureLocation(departureLocation);
 				flight.setArrivalLocation(arrivalLocation);
@@ -62,20 +51,22 @@ public class Search{
 				flight.setFoodInfo(flightResultSet.getString("FoodInfo"));
 				flight.setAirline(flightResultSet.getString("Airline"));
 				flight.setMaximumLuggageWeight(flightResultSet.getInt("MaximumLuggageWeight"));
+				flight.setTicketsAvailable(flightResultSet.getInt("TicketsAvailable"));
 				
-				System.out.println(flight.getFoodInfo());
-			
+				System.out.println(flight.getTicketsAvailable());
+
 				flights.add(flight);
 			}
 			
 			prepState.close();
 			c.close();
 			
+			
+			
 		}catch(Exception e){
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
 		}
-		System.out.println(flights);
 		return flights;
 	}
 

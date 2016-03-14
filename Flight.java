@@ -13,9 +13,19 @@ public class Flight {
 	private String foodInfo;
 	private String airline;
 	private int maximumLuggageWeight;
+	private int id;
+	private int ticketsAvailable;
 	
 	public Flight(){	
 	}
+	
+	public void setID(int ids){
+		this.id = ids;
+	}
+	public int getID(){
+		return this.id;
+	}
+	
 	
 	public void setDepartureDate(String date){
 		this.departureDate = date;
@@ -92,6 +102,13 @@ public class Flight {
 	}
 	public int getMaximumLuggageWeight(){
 		return this.maximumLuggageWeight;
+	}
+	
+	public void setTicketsAvailable (int tickets){
+		this.ticketsAvailable = tickets;
+	}
+	public int getTicketsAvailable(){
+		return this.ticketsAvailable;
 	}
 }
 

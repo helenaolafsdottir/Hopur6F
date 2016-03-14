@@ -34,6 +34,7 @@ public class UserInterface {
 	private String dateString;
 	
 	Search mySearch = new Search();
+	BokaUserInterface nw = new BokaUserInterface();
 
 	
 	/**
@@ -129,6 +130,6 @@ public class UserInterface {
 		String arrivalLocation = jAfangastadurComboBox.getSelectedItem().toString();
 		int numberOfPassengers = Integer.parseInt(jFjoldiComboBox.getSelectedItem().toString());
 		ArrayList<Flight> flights = mySearch.gettingCorrectSearchResults(departureLocation, arrivalLocation, numberOfPassengers, dateString);
+		nw.NewScreen(flights);
     }
-
 }
