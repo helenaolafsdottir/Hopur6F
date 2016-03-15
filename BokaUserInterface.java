@@ -10,14 +10,18 @@ import java.sql.*;
 
 public class BokaUserInterface {
 	
+	static BookingController bokun = new BookingController();
+	
 	static Connection c;
 	private JFrame frame;
 	static JTextPane[] totalFlightsPanes = new JTextPane[1000];
 	static JButton[] totalFlightsButtons = new JButton[1000];
+	static Flight bokadFlug;
+	
 	/**
 	 * Launch the application.
 	 */
-	public static void NewScreen(ArrayList<Flight> flights) {
+	public static Flight bokaFlug(ArrayList<Flight> flights) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -44,38 +48,21 @@ public class BokaUserInterface {
 							int a = i;
 							totalFlightsButtons[i].addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent e) {
+									Flight flug = flights.get(a);
 									int numberOfPassengers = flights.get(a).getNumberOfPassengers();
 									int id = flights.get(a).getID();
-									int ticketsAvailable = flights.get(a).getTicketsAvailable();
-									int finalTicketsAvailable = ticketsAvailable - numberOfPassengers;								
-									try {
-										c = DriverManager.getConnection("jdbc:sqlite:Verkefni6Flug.db");
-										c.setAutoCommit(false);
-									
-										String update = "UPDATE Flights SET TicketsAvailable = ? WHERE ID = ?";
-										PreparedStatement prepState = c.prepareStatement(update);
-									
-										prepState.setInt(1, finalTicketsAvailable);
-										prepState.setInt(2, id);
-										
-										prepState.executeUpdate();
-										c.commit();
-										prepState.close();
-										c.close();
-									}catch(Exception evt){
-										System.err.println( evt.getClass().getName() + ": " + evt.getMessage() );
-										System.exit(0);
-									}
-							
-									
-									
+									int ticketsAvailable = flights.get(a).getTicketsAvailable();							
+									bokun.reduceNumberOfSeats(numberOfPassengers, ticketsAvailable, id);
+									bokadFlug = bokun.createBooking(flug);
 									
 								}
+								
 							});
 							panel.add(totalFlightsButtons[i]);
 							
 							i++;
 							v+=100;
+							
 					}
 					
 				} catch (Exception e) {
@@ -83,6 +70,7 @@ public class BokaUserInterface {
 				}
 			}
 		});
+		return bokadFlug;
 	}
 
 	/**

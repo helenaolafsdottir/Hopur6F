@@ -130,6 +130,6 @@ public class UserInterface {
 		String arrivalLocation = jAfangastadurComboBox.getSelectedItem().toString();
 		int numberOfPassengers = Integer.parseInt(jFjoldiComboBox.getSelectedItem().toString());
 		ArrayList<Flight> flights = mySearch.gettingCorrectSearchResults(departureLocation, arrivalLocation, numberOfPassengers, dateString);
-		nw.NewScreen(flights);
+		Flight bokadFlug = nw.bokaFlug(flights);
     }
 }
