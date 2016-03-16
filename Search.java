@@ -11,29 +11,19 @@ public class Search{
 			c = DriverManager.getConnection("jdbc:sqlite:Verkefni6Flug.db");
 			
 			String select = "SELECT * FROM Flights WHERE DepartureDate = ? AND DepartureLocation = ? AND arrivalLocation = ? AND TicketsAvailable >= ? ";
-			String countSelect = "SELECT COUNT(*) FROM Flights WHERE DepartureDate = ? AND DepartureLocation = ? AND arrivalLocation = ? AND TicketsAvailable >= ? ";
 			
 			PreparedStatement prepState = c.prepareStatement(select);
-			PreparedStatement countedPrepState = c.prepareStatement(countSelect);
 			
 			//Stingum inn fyrir spurningamerkin í SQL statementinu.
 			prepState.setString(1, dateString);
 			prepState.setString(2, departureLocation);
 			prepState.setString(3, arrivalLocation);
 			prepState.setInt(4, numberOfPassengers);
-				
-			countedPrepState.setString(1, "'" + dateString + "'");
-			countedPrepState.setString(2, "'" + departureLocation + "'");
-			countedPrepState.setString(3, "'" + arrivalLocation + "'");
-			countedPrepState.setInt(4, numberOfPassengers);
 			
 			//Fáum gögnin frá gagnagrunninum
 			ResultSet flightResultSet = prepState.executeQuery();
-			ResultSet countResultSet = countedPrepState.executeQuery();
-			
-			int numberOfResults = countResultSet.getInt("COUNT(*)");
 
-			flights = new ArrayList<Flight>(numberOfResults);
+			flights = new ArrayList<Flight>();
 			
 			//Búum til flughluti með þeim upplýsingu sem þarf að birta notanda
 			while(flightResultSet.next()){
@@ -56,7 +46,7 @@ public class Search{
 
 				flights.add(flight);
 			}
-			
+		
 			prepState.close();
 			c.close();
 			

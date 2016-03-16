@@ -4,7 +4,9 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JTextPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JFrame;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import java.sql.*;
 
@@ -15,13 +17,28 @@ public class BokaUserInterface {
 	static Connection c;
 	private JFrame frame;
 	static JTextPane[] totalFlightsPanes = new JTextPane[1000];
-	static JButton[] totalFlightsButtons = new JButton[1000];
-	static Flight bokadFlug;
+	static JRadioButton[] totalFlightsButtons = new JRadioButton[1000];
+	static JTextPane[] totalFlightsPaness = new JTextPane[1000];
+	static JRadioButton[] totalFlightsButtonss = new JRadioButton[1000];
+	static JButton jBookFlightButton = new JButton();
+	static ArrayList<Flight> bokudFlug;
+	static ButtonGroup departureButtonGroup = new ButtonGroup();
+	static ButtonGroup arrivalButtonGroup = new ButtonGroup();
+	
+	static Flight departureFlight;
+	static int departureNumberOfPassengers;
+	static int departureID;
+	static int departureTicketsAvailable;
+	static Flight arrivalFlight;
+	static int arrivalNumberOfPassengers;
+	static int arrivalID;
+	static int arrivalTicketsAvailable;
+	
 	
 	/**
 	 * Launch the application.
 	 */
-	public static Flight bokaFlug(ArrayList<Flight> flights) {
+	public static ArrayList<Flight> bokaFlug(ArrayList<Flight> departureFlights, ArrayList<Flight> arrivalFlights) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -30,30 +47,30 @@ public class BokaUserInterface {
 					
 					JPanel panel = new JPanel();
 					panel.setBounds(0, 0, 450, 300);
-				    window.frame.add(panel);
+				    window.frame.getContentPane().add(panel);
 					
-					int size = flights.size();
+					int departureSize = departureFlights.size();
 					int v=25;
 					int i=0;
+					System.out.println(arrivalFlights);
 					
-					while(i<size){
+					while(i<departureSize){
 							totalFlightsPanes[i] = new JTextPane();
 							totalFlightsPanes[i].setBounds(10,v,375,20);
-							totalFlightsPanes[i].setText(flights.get(i).getAirline() + "\n" + flights.get(i).getArrivalLocation());
+							totalFlightsPanes[i].setText(departureFlights.get(i).getAirline() + "\n" + departureFlights.get(i).getArrivalLocation());
 							panel.add(totalFlightsPanes[i]);
 							
-							totalFlightsButtons[i] = new JButton();
+							totalFlightsButtons[i] = new JRadioButton();
 							totalFlightsButtons[i].setBounds(10,v+10,375,20);
-							totalFlightsButtons[i].setText("Velja");
+							departureButtonGroup.add(totalFlightsButtons[i]);
+
 							int a = i;
 							totalFlightsButtons[i].addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent e) {
-									Flight flug = flights.get(a);
-									int numberOfPassengers = flights.get(a).getNumberOfPassengers();
-									int id = flights.get(a).getID();
-									int ticketsAvailable = flights.get(a).getTicketsAvailable();							
-									bokun.reduceNumberOfSeats(numberOfPassengers, ticketsAvailable, id);
-									bokadFlug = bokun.createBooking(flug);
+									departureFlight = departureFlights.get(a);
+									departureNumberOfPassengers = departureFlights.get(a).getNumberOfPassengers();
+									departureID = departureFlights.get(a).getID();
+									departureTicketsAvailable = departureFlights.get(a).getTicketsAvailable();							
 									
 								}
 								
@@ -65,12 +82,56 @@ public class BokaUserInterface {
 							
 					}
 					
+					if(!(arrivalFlights.isEmpty())){
+						int arrivalSize = arrivalFlights.size();
+						int j = 0;
+						while(j<arrivalSize){
+							totalFlightsPaness[j] = new JTextPane();
+							totalFlightsPaness[j].setBounds(10,v,375,20);
+							totalFlightsPaness[j].setText(arrivalFlights.get(j).getAirline() + "\n" + arrivalFlights.get(j).getArrivalLocation());
+							panel.add(totalFlightsPaness[j]);
+							
+							totalFlightsButtonss[j] = new JRadioButton();
+							totalFlightsButtonss[j].setBounds(10,v+10,375,20);
+							arrivalButtonGroup.add(totalFlightsButtonss[j]);
+							
+							int a = j;
+							totalFlightsButtonss[j].addActionListener(new ActionListener() {
+								public void actionPerformed(ActionEvent e) {
+									arrivalFlight = arrivalFlights.get(a);
+									arrivalNumberOfPassengers = arrivalFlights.get(a).getNumberOfPassengers();
+									arrivalID = arrivalFlights.get(a).getID();
+									arrivalTicketsAvailable = arrivalFlights.get(a).getTicketsAvailable();
+								}
+								
+							});
+							panel.add(totalFlightsButtonss[j]);
+							
+							j++;
+							v+=100;
+						}
+					}
+					
+					JButton jBookFlightButton = new JButton();
+					jBookFlightButton.setBounds(110, 100, 350, 100);
+					jBookFlightButton.setText("Bóka flug");
+				    jBookFlightButton.addActionListener(new ActionListener() {
+				    	public void actionPerformed(ActionEvent e) {
+				    		bokun.reduceNumberOfSeats(departureNumberOfPassengers, departureTicketsAvailable, departureID);
+				    		bokun.reduceNumberOfSeats(arrivalNumberOfPassengers, arrivalTicketsAvailable, arrivalID);
+				    		bokudFlug = bokun.createBooking(departureFlight, arrivalFlight);
+				    	}
+				    });
+				    panel.add(jBookFlightButton);
+					
+					
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
-		return bokadFlug;
+		return bokudFlug;
 	}
 
 	/**
@@ -89,5 +150,4 @@ public class BokaUserInterface {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 	}
-	
 }

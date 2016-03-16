@@ -8,6 +8,8 @@ import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.swing.JRadioButton;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
@@ -31,7 +33,10 @@ public class UserInterface {
 	private JComboBox jAfangastadurComboBox;
 	private JComboBox jFjoldiComboBox;
 	private JDateChooser jDepartureDateChooser;
-	private String dateString;
+	private JDateChooser jArrivalDateChooser;
+	private String departureDateString;
+	private String arrivalDateString = null;
+	private JLabel jDateLabel1;
 	
 	Search mySearch = new Search();
 	BokaUserInterface nw = new BokaUserInterface();
@@ -92,7 +97,7 @@ public class UserInterface {
 		frame.getContentPane().add(jAfangastadurLabel);
 		
 		JLabel jFjoldiLabel = new JLabel("Fjöldi:");
-		jFjoldiLabel.setBounds(70, 300, 57, 32);
+		jFjoldiLabel.setBounds(66, 322, 57, 32);
 		frame.getContentPane().add(jFjoldiLabel);
 		
 		String[] Brottfararstadir = {"Reykjavík", "Akureyri", "Egilsstaðir", "Ísafjörður"};
@@ -107,29 +112,66 @@ public class UserInterface {
 		
 		String[] fjoldiFerdamanna = {"1", "2", "3", "4"};
 		jFjoldiComboBox = new JComboBox(fjoldiFerdamanna);
-		jFjoldiComboBox.setBounds(135, 300, 69, 32);
+		jFjoldiComboBox.setBounds(136, 322, 69, 32);
 		frame.getContentPane().add(jFjoldiComboBox);
 		
 		JDateChooser jDepartureDateChooser = new JDateChooser();
 		jDepartureDateChooser.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
 				Date date = jDepartureDateChooser.getDate();
-				dateString = String.format("%1$td.%1$tm.%1$tY", date);
+				departureDateString = String.format("%1$td.%1$tm.%1$tY", date);
 			}
 		});
 		jDepartureDateChooser.setBounds(236, 218, 156, 32);
 		frame.getContentPane().add(jDepartureDateChooser);
 		
-		JLabel jDatelabel = new JLabel("Dagsetning:");
+		JLabel jDatelabel = new JLabel("Brottför:");
 		jDatelabel.setBounds(66, 218, 139, 32);
 		frame.getContentPane().add(jDatelabel);
+
+		
+		JDateChooser jArrivalDateChooser = new JDateChooser();
+		jArrivalDateChooser.addPropertyChangeListener(new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent evt) {
+				Date date = jArrivalDateChooser.getDate();
+				arrivalDateString = String.format("%1$td.%1$tm.%1$tY", date);
+			}
+		});
+		jArrivalDateChooser.setBounds(236, 256, 156, 32);
+		frame.getContentPane().add(jArrivalDateChooser);
+		jArrivalDateChooser.setVisible(false);
+		
+		JLabel jDateLabel1 = new JLabel("Heimkoma:");
+		jDateLabel1.setBounds(66, 256, 139, 32);
+		frame.getContentPane().add(jDateLabel1);
+		jDateLabel1.setVisible(false);
+		
+		JRadioButton jRoundTripRadioButton = new JRadioButton("Round Trip");
+		jRoundTripRadioButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(jRoundTripRadioButton.isSelected()){
+					jArrivalDateChooser.setVisible(true);
+					jDateLabel1.setVisible(true);
+				}
+				else{
+					jArrivalDateChooser.setVisible(false);
+					jDateLabel1.setVisible(false);
+				}
+			}
+		});
+		jRoundTripRadioButton.setBounds(297, 321, 201, 35);
+		frame.getContentPane().add(jRoundTripRadioButton);
 		
 	} 
     private void jAframButtonActionPerformed(java.awt.event.ActionEvent e) { 
 		String departureLocation = jBrottfararstadurComboBox.getSelectedItem().toString();
 		String arrivalLocation = jAfangastadurComboBox.getSelectedItem().toString();
 		int numberOfPassengers = Integer.parseInt(jFjoldiComboBox.getSelectedItem().toString());
-		ArrayList<Flight> flights = mySearch.gettingCorrectSearchResults(departureLocation, arrivalLocation, numberOfPassengers, dateString);
-		Flight bokadFlug = nw.bokaFlug(flights);
+		ArrayList<Flight> departureFlights = mySearch.gettingCorrectSearchResults(departureLocation, arrivalLocation, numberOfPassengers, departureDateString);
+		ArrayList<Flight> arrivalFlights = new ArrayList<Flight>();
+		if(!(arrivalDateString=="null.null.null")){
+			arrivalFlights = mySearch.gettingCorrectSearchResults(arrivalLocation, departureLocation, numberOfPassengers, arrivalDateString);
+		}
+		ArrayList<Flight> bokadFlug = nw.bokaFlug(departureFlights, arrivalFlights);
     }
 }
