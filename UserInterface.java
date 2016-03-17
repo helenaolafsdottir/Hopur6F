@@ -8,6 +8,7 @@ import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.swing.JRadioButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import java.awt.Font;
@@ -119,7 +120,13 @@ public class UserInterface {
 		jDepartureDateChooser.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
 				Date date = jDepartureDateChooser.getDate();
-				departureDateString = String.format("%1$td.%1$tm.%1$tY", date);
+				if(date == null){
+					departureDateString = null;
+				}
+				else{
+					departureDateString = String.format("%1$td.%1$tm.%1$tY", date);
+				}
+				
 			}
 		});
 		jDepartureDateChooser.setBounds(236, 218, 156, 32);
@@ -134,7 +141,12 @@ public class UserInterface {
 		jArrivalDateChooser.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
 				Date date = jArrivalDateChooser.getDate();
-				arrivalDateString = String.format("%1$td.%1$tm.%1$tY", date);
+				if(date == null){
+					arrivalDateString = null;
+				}
+				else{
+					arrivalDateString = String.format("%1$td.%1$tm.%1$tY", date);
+				}
 			}
 		});
 		jArrivalDateChooser.setBounds(236, 256, 156, 32);
@@ -151,6 +163,7 @@ public class UserInterface {
 			public void actionPerformed(ActionEvent e) {
 				if(jRoundTripRadioButton.isSelected()){
 					jArrivalDateChooser.setVisible(true);
+					arrivalDateString = "null";
 					jDateLabel1.setVisible(true);
 				}
 				else{
@@ -167,11 +180,22 @@ public class UserInterface {
 		String departureLocation = jBrottfararstadurComboBox.getSelectedItem().toString();
 		String arrivalLocation = jAfangastadurComboBox.getSelectedItem().toString();
 		int numberOfPassengers = Integer.parseInt(jFjoldiComboBox.getSelectedItem().toString());
-		ArrayList<Flight> departureFlights = mySearch.gettingCorrectSearchResults(departureLocation, arrivalLocation, numberOfPassengers, departureDateString);
-		ArrayList<Flight> arrivalFlights = new ArrayList<Flight>();
-		if(!(arrivalDateString=="null.null.null")){
-			arrivalFlights = mySearch.gettingCorrectSearchResults(arrivalLocation, departureLocation, numberOfPassengers, arrivalDateString);
+	
+	
+		
+		if(departureDateString == null || arrivalDateString == "null"){
+			JOptionPane.showMessageDialog(null, "Vinsamlegast veldu viðeigandi dagsetningar.");
 		}
-		ArrayList<Flight> bokadFlug = nw.bokaFlug(departureFlights, arrivalFlights);
+		else {
+			System.out.println("else");
+			ArrayList<Flight> departureFlights = mySearch.gettingCorrectSearchResults(departureLocation, arrivalLocation, numberOfPassengers, departureDateString);
+			ArrayList<Flight> arrivalFlights = new ArrayList<Flight>();
+			if(!(arrivalDateString == null)){
+				
+				arrivalFlights = mySearch.gettingCorrectSearchResults(arrivalLocation, departureLocation, numberOfPassengers, arrivalDateString);
+			}
+			ArrayList<Flight> bokadFlug = nw.bokaFlug(departureFlights, arrivalFlights);
+		}
+	
     }
 }

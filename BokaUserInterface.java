@@ -19,6 +19,8 @@ public class BokaUserInterface {
 	static JTextPane[] totalFlightsPanes = new JTextPane[1000];
 	static JRadioButton[] totalFlightsButtons = new JRadioButton[1000];
 	static JTextPane[] totalFlightsPaness = new JTextPane[1000];
+	static JTextPane ekkertLaustDeparture = new JTextPane();
+	static JTextPane ekkertLaustArrival = new JTextPane();
 	static JRadioButton[] totalFlightsButtonss = new JRadioButton[1000];
 	static JButton jBookFlightButton = new JButton();
 	static ArrayList<Flight> bokudFlug;
@@ -52,11 +54,16 @@ public class BokaUserInterface {
 					int departureSize = departureFlights.size();
 					int v=25;
 					int i=0;
-					System.out.println(arrivalFlights);
-					
+					if(departureSize == 0){
+						System.out.println("hæ");
+						ekkertLaustDeparture = new JTextPane();
+						ekkertLaustDeparture.setBounds(10,10,375,20);
+						ekkertLaustDeparture.setText("Ekkert brottfaraflug er laust");
+						panel.add(ekkertLaustDeparture);
+					}
 					while(i<departureSize){
 							totalFlightsPanes[i] = new JTextPane();
-							totalFlightsPanes[i].setBounds(10,v,375,20);
+							//totalFlightsPanes[i].setBounds(10,v,375,20);
 							totalFlightsPanes[i].setText(departureFlights.get(i).getAirline() + "\n" + departureFlights.get(i).getArrivalLocation());
 							panel.add(totalFlightsPanes[i]);
 							
