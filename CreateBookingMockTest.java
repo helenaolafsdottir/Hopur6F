@@ -1,7 +1,5 @@
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,28 +11,36 @@ import org.junit.Test;
 public class CreateBookingMockTest {
 
 	private CreateBookingMock bokun = new CreateBookingMock();
-	private String flugfelagIslands;
-	private String departureLoc;
-	private String arrivalLoc;
-	private String departureDate;
-	private String foodInfo;
+	private String flugfelagIslands = "Flugfélag Íslands";
+	private String departureLoc = "Reykjavík";
+	private String arrivalLoc = "Akureyri";
+	private String departureDate = "01.06.2016";
+	private String foodInfo = "Epli og Kók";
+	private int totPrice = 20000;
+	Flight depFlight = new Flight();
+	Flight arrFlight = new Flight();
 	
 	@Before
 	public void setUp(){
-		flugfelagIslands = "Flugfélag Íslands";
-		departureLoc = "Reykjavík";
-		arrivalLoc = "Akureyri";
-		departureDate = "01.06.2016";
-		foodInfo = "Epli og Kók";	
+
+		depFlight.setAirline(flugfelagIslands);
+		depFlight.setDepartureLocation(departureLoc);
+		depFlight.setArrivalLocation(arrivalLoc);
+		depFlight.setDepartureDate(departureDate);
+		depFlight.setFoodInfo(foodInfo);
+
+		arrFlight.setAirline(flugfelagIslands);
+		arrFlight.setDepartureLocation(departureLoc);
+		arrFlight.setArrivalLocation(arrivalLoc);
+		arrFlight.setDepartureDate(departureDate);
+		arrFlight.setFoodInfo(foodInfo);
 	}
 	
 	@After
 	public void tearDown(){
-		flugfelagIslands = null;
-		departureLoc = null;
-		arrivalLoc = null;
-		departureDate = null;
-		foodInfo = null;
+		depFlight = null;
+		arrFlight = null;
+
 	}
 	
 	/**
@@ -42,13 +48,20 @@ public class CreateBookingMockTest {
 	 */
 	@Test
 	public void testCreateBooking() {
-		ArrayList<Flight> flug = bokun.createBookingMock();
 		
-		assertEquals(flugfelagIslands,flug.get(0).getAirline());
-		assertEquals(departureLoc, flug.get(0).getDepartureLocation());
-		assertEquals(arrivalLoc, flug.get(0).getArrivalLocation());
-		assertEquals(departureDate, flug.get(0).getDepartureDate());
-		assertEquals(foodInfo, flug.get(0).getFoodInfo());
+		Booking booking = bokun.createBookingMock(depFlight, arrFlight);
+		
+		assertEquals(flugfelagIslands, booking.getArrivalFlight().getAirline());
+		assertEquals(departureLoc, booking.getArrivalFlight().getDepartureLocation());
+		assertEquals(arrivalLoc, booking.getArrivalFlight().getArrivalLocation());
+		assertEquals(departureDate, booking.getDepartureFlight().getDepartureDate());
+		assertEquals(foodInfo, booking.getDepartureFlight().getFoodInfo());
+		assertEquals(totPrice, booking.getTotalPrice());
+		
+		//Athugum hvort að bókunarnúmerið sé af réttri lengd (5 bókstafir)
+		String bookingNr = booking.getBookingNumber();
+		int bookingNrLength = bookingNr.length();
+		assertEquals(5, bookingNrLength);
 	}
 
 }

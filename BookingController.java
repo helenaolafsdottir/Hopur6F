@@ -61,7 +61,7 @@ public class BookingController {
 			depPrice = departureFlight.getTotalPrice();
 		}
 		System.out.println(departureFlight);
-		//System.out.println(arrivalFlight);
+		System.out.println(arrivalFlight);
 		
 		//Ef bóka skal heimkomuflug
 		if(arrivalFlight != null){
@@ -69,8 +69,9 @@ public class BookingController {
 			depPrice = arrivalFlight.getTotalPrice();
 		}
 		totalBookingPrice = depPrice + arrPrice;
-		
-		System.out.println(bokudFlug);
+		bokudFlug.setTotalPrice(totalBookingPrice);
+		bokudFlug.setBookingNumber();
+
 		return bokudFlug;
 		
 	}
