@@ -6,10 +6,15 @@ import javax.swing.JTextPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import java.sql.*;
 
+/**
+ * User Interface sem birtir niðurstöður úr flugleitinni.
+ * @author Arna Björgvinsdóttir, Hannes Jón Ívarsson, Helena Ólafsdóttir, Sandra Gunnarsdóttir
+ */
 public class BokaUserInterface {
 	
 	static BookingController bokun = new BookingController();
@@ -25,7 +30,7 @@ public class BokaUserInterface {
 	static JTextPane arrivalFlightsPane = new JTextPane();
 	static JRadioButton[] totalFlightsButtonss = new JRadioButton[1000];
 	static JButton jBookFlightButton = new JButton();
-	static ArrayList<Flight> bokudFlug;
+	static Booking bokudFlug;
 	static ButtonGroup departureButtonGroup = new ButtonGroup();
 	static ButtonGroup arrivalButtonGroup = new ButtonGroup();
 	
@@ -43,12 +48,12 @@ public class BokaUserInterface {
 	 * Launch the application.
 	 * Hér eru flugniðurstöðurnar sem fengust úr search fallinu birtar notandanum.
 	 */
-	public static ArrayList<Flight> bokaFlug(ArrayList<Flight> departureFlights, ArrayList<Flight> arrivalFlights) {
+	public static Booking bokaFlug(ArrayList<Flight> departureFlights, ArrayList<Flight> arrivalFlights) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					System.out.print(departureFlights);
-					System.out.print(arrivalFlights);
+					//System.out.print(arrivalFlights);
 					BokaUserInterface window = new BokaUserInterface();
 					window.frame.setVisible(true);
 					
@@ -79,9 +84,6 @@ public class BokaUserInterface {
 								totalFlightsButtons[i] = new JRadioButton();
 								totalFlightsButtons[i].setBounds(10,v+10,375,20);
 								departureButtonGroup.add(totalFlightsButtons[i]);
-								if(i==0){
-									totalFlightsButtons[i].setSelected(true);
-								}
 
 								int a = i;
 								totalFlightsButtons[i].addActionListener(new ActionListener() {
@@ -128,9 +130,6 @@ public class BokaUserInterface {
 							totalFlightsButtonss[j] = new JRadioButton();
 							totalFlightsButtonss[j].setBounds(10,v+10,375,20);
 							arrivalButtonGroup.add(totalFlightsButtonss[j]);
-							if(j==0){
-								totalFlightsButtonss[j].setSelected(true);
-							}
 							
 							int a = j;
 							totalFlightsButtonss[j].addActionListener(new ActionListener() {
@@ -158,34 +157,64 @@ public class BokaUserInterface {
 
 							//Ef notandi leitaði að brottfarar- og heimkomuflugum
 				    		if(!(arrivalFlights.isEmpty())){
-				    			//Ef engin flug heimkomuflug fundust
-				    			if(arrivalFlights.get(0).getTotalPrice() == 0 ){
-				    				bokun.reduceNumberOfSeats(departureNumberOfPassengers, departureTicketsAvailable, departureID);
-				    				bokudFlug = bokun.createBooking(departureFlight, null);
-				    			}
-				    			//Ef engin brottfararflug fundust
-				    			if(departureFlights.get(0).getTotalPrice() == 0 ){
-				    				bokun.reduceNumberOfSeats(arrivalNumberOfPassengers, arrivalTicketsAvailable, arrivalID);
-				    				bokudFlug = bokun.createBooking(null, arrivalFlight);
-				    			}
-				    			//Ef bæði brottfarar- og heimkomuflug fundust
-				    			else{
-				    				bokun.reduceNumberOfSeats(departureNumberOfPassengers, departureTicketsAvailable, departureID);
-				    				bokun.reduceNumberOfSeats(arrivalNumberOfPassengers, arrivalTicketsAvailable, arrivalID);
-				    				bokudFlug = bokun.createBooking(departureFlight, arrivalFlight);
-				    			}
+				    			
+				    				//Ef engin flug heimkomuflug fundust
+					    			if(arrivalFlights.get(0).getTotalPrice() == 0 ){
+					    				//Notandi verður að haka við það flug sem hann vill bóka, ef hann gerir það ekki fær hann villuskilaboð
+						    			if(departureButtonGroup.getSelection() ==null){
+						    				JOptionPane.showMessageDialog(null, "Vinsamlegast veldu það flug sem þú vilt bóka.");
+						    			}
+						    			else{
+						    				bokun.reduceNumberOfSeats(departureNumberOfPassengers, departureTicketsAvailable, departureID);
+						    				bokudFlug = bokun.createBooking(departureFlight, null);
+						    			}
+					    			}
+					    			
+					    			//Ef engin brottfararflug fundust
+					    			else if(departureFlights.get(0).getTotalPrice() == 0 ){
+					    				//Notandi verður að haka við það flug sem hann vill bóka, ef hann gerir það ekki fær hann villuskilaboð
+						    			if(arrivalButtonGroup.getSelection() == null){
+						    				JOptionPane.showMessageDialog(null, "Vinsamlegast veldu það flug sem þú vilt bóka.");
+						    			}
+						    			else{
+						    				bokun.reduceNumberOfSeats(arrivalNumberOfPassengers, arrivalTicketsAvailable, arrivalID);
+						    				bokudFlug = bokun.createBooking(null, arrivalFlight);
+						    			}
+					    				
+					    			}
+					    			//Ef bæði brottfarar- og heimkomuflug fundust
+					    			else{
+						    			//Notandi verður að haka við þau tvö flug sem hann vill bóka, ef hann gerir það ekki fær hann villuskilaboð
+						    			if(departureButtonGroup.getSelection() == null || arrivalButtonGroup.getSelection() == null){
+						    				JOptionPane.showMessageDialog(null, "Vinsamlegast veldu þau flug sem þú vilt bóka.");
+						    			}
+						    			else{
+						    				bokun.reduceNumberOfSeats(departureNumberOfPassengers, departureTicketsAvailable, departureID);
+						    				bokun.reduceNumberOfSeats(arrivalNumberOfPassengers, arrivalTicketsAvailable, arrivalID);
+						    				bokudFlug = bokun.createBooking(departureFlight, arrivalFlight);
+						    			}
+					    				
+					    			}
+				    			
+				    			
 				    		}
 							//Ef notandi leitaði einungis af brottfararflugum
 				    		else {
+				    			//Notandi verður að haka við það flug sem hann vill bóka, ef hann gerir það ekki fær hann villuskilaboð
+				    			if(departureButtonGroup.getSelection() ==null){
+				    				JOptionPane.showMessageDialog(null, "Vinsamlegast veldu það flug sem þú vilt bóka.");
+				    			}
+				    			else{
 				    				//Þurfum bara eitt tilfelli því engin takki er birtur ef engar niðurstöður fundust. 
 				    				bokun.reduceNumberOfSeats(departureNumberOfPassengers, departureTicketsAvailable, departureID);
 				    				bokun.reduceNumberOfSeats(arrivalNumberOfPassengers, arrivalTicketsAvailable, arrivalID);
 				    				bokudFlug = bokun.createBooking(departureFlight, arrivalFlight);
+				    			}
 				    		}
 				    	}
 				    });
 				    
-				    //Birtum bóka flug takkann einungis ef einhver flug fundust.
+				    //Birtum bóka flug takkann einungis ef einhver flug fundust:
 				    
 				    //Notandi leitaði að tveimur flugum
 				    if(!(arrivalFlights.isEmpty())){

@@ -48,47 +48,27 @@ public class BookingController {
 	 * @param arrivalFlight Heimkomuflug sem bóka skal
 	 * @return Það flug sem var bókað.
 	 */
-	public ArrayList<Flight> createBooking(Flight departureFlight, Flight arrivalFlight){
-		ArrayList<Flight> bokudFlug = new ArrayList<Flight>(); 
-	
+	public Booking createBooking(Flight departureFlight, Flight arrivalFlight){
+		Booking bokudFlug = new Booking(); 
+
+		int depPrice = 0;
+		int arrPrice = 0;
+		int totalBookingPrice = 0;
+		
 		//Ef bóka skal brottfararflug
 		if(departureFlight != null){
-			Flight depFlight = new Flight();
-			depFlight.setAirline(departureFlight.getAirline());
-			depFlight.setArrivalLocation(departureFlight.getArrivalLocation());
-			depFlight.setArrivalTime(departureFlight.getArrivalTime());
-			depFlight.setDepartureDate(departureFlight.getDepartureDate());
-			depFlight.setDepartureLocation(departureFlight.getDepartureLocation());
-			depFlight.setDepartureTime(departureFlight.getDepartureTime());
-			depFlight.setDuration(departureFlight.getDuration());
-			depFlight.setFoodInfo(departureFlight.getFoodInfo());
-			depFlight.setMaximumLuggageWeight(departureFlight.getMaximumLuggageWeight());
-			depFlight.setNumberOfPassengers(departureFlight.getNumberOfPassengers());
-			depFlight.setTotalPrice(departureFlight.getTotalPrice());
-			
-			bokudFlug.add(depFlight);
+			bokudFlug.setDepartureFlight(departureFlight);
+			depPrice = departureFlight.getTotalPrice();
 		}
 		System.out.println(departureFlight);
-		System.out.println(arrivalFlight);
+		//System.out.println(arrivalFlight);
 		
 		//Ef bóka skal heimkomuflug
 		if(arrivalFlight != null){
-			Flight arrFlight = new Flight();
-			arrFlight.setAirline(arrivalFlight.getAirline());
-			arrFlight.setArrivalLocation(arrivalFlight.getArrivalLocation());
-			arrFlight.setArrivalTime(arrivalFlight.getArrivalTime());
-			arrFlight.setDepartureDate(arrivalFlight.getDepartureDate());
-			arrFlight.setDepartureLocation(arrivalFlight.getDepartureLocation());
-			arrFlight.setDepartureTime(arrivalFlight.getDepartureTime());
-			arrFlight.setDuration(arrivalFlight.getDuration());
-			arrFlight.setFoodInfo(arrivalFlight.getFoodInfo());
-			arrFlight.setMaximumLuggageWeight(arrivalFlight.getMaximumLuggageWeight());
-			arrFlight.setNumberOfPassengers(arrivalFlight.getNumberOfPassengers());
-			arrFlight.setTotalPrice(arrivalFlight.getTotalPrice());
-			
-			
-			bokudFlug.add(arrFlight);
+			bokudFlug.setArrivalFlight(arrivalFlight);
+			depPrice = arrivalFlight.getTotalPrice();
 		}
+		totalBookingPrice = depPrice + arrPrice;
 		
 		System.out.println(bokudFlug);
 		return bokudFlug;

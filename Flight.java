@@ -95,7 +95,7 @@ public class Flight {
 	
 	public void setAirline (String airl){
 		this.airline = airl;
-	}
+	}	
 	public String getAirline(){
 		return this.airline;
 	}

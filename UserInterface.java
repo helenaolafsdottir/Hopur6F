@@ -202,7 +202,7 @@ public class UserInterface {
 				arrivalFlights = mySearch.gettingCorrectSearchResults(arrivalLocation, departureLocation, numberOfPassengers, arrivalDateString);
 			}
 			
-			ArrayList<Flight> bokadFlug = nw.bokaFlug(departureFlights, arrivalFlights);
+			Booking bokadFlug = nw.bokaFlug(departureFlights, arrivalFlights);
 		}
 	
     }

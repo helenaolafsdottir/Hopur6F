@@ -22,6 +22,7 @@ public class SearchMockTest {
 	private String arrivalLoc2;
 	private String departureDate2;
 	private String foodInfo2;
+	private int numberOfPassengers;
 	
 	private String dateForException;
 	
@@ -32,11 +33,12 @@ public class SearchMockTest {
 		arrivalLoc1 = "Akureyri";
 		departureDate1 = "01.06.2016";
 		foodInfo1 = "Epli og Kók";	
-		departureLoc2 = "Akureyri";
-		arrivalLoc2 = "Reykjavík";
+		departureLoc2 = "Reykjavík";
+		arrivalLoc2 = "Akureyri";
 		departureDate2 = "01.06.2016";
 		foodInfo2 = "Epli og Kók";	
 		dateForException = "01/06/2016";
+		numberOfPassengers = 1;
 	}
 	
 	@After
@@ -51,6 +53,7 @@ public class SearchMockTest {
 		departureDate2 = null;
 		foodInfo2 = null;	
 		dateForException = null;
+		numberOfPassengers = 0;
 	}
 	
 	/**
@@ -58,7 +61,7 @@ public class SearchMockTest {
 	 */
 	@Test
 	public void testSearchMock() {
-		ArrayList<Flight> flug = mySearch.searchMock(departureDate1);
+		ArrayList<Flight> flug = mySearch.searchMock(departureDate1, numberOfPassengers, departureLoc1, arrivalLoc1);
 		
 		assertEquals(flugfelagIslands,flug.get(0).getAirline());
 		assertEquals(departureLoc1, flug.get(0).getDepartureLocation());
@@ -78,7 +81,7 @@ public class SearchMockTest {
 	 */
 	@Test(expected=IndexOutOfBoundsException.class)
 	public void testTooManyFlights(){
-		ArrayList<Flight> flug = mySearch.searchMock(departureDate1);
+		ArrayList<Flight> flug = mySearch.searchMock(departureDate1, numberOfPassengers, departureLoc1, arrivalLoc1);
 		Flight flug11 = flug.get(10);
 	}
 	
@@ -88,7 +91,7 @@ public class SearchMockTest {
 	 */
 	@Test(expected=IllegalArgumentException.class)
 	public void testIllegalDate(){
-		ArrayList<Flight> flug = mySearch.searchMock(dateForException);
+		ArrayList<Flight> flug = mySearch.searchMock(dateForException, numberOfPassengers, departureLoc1, arrivalLoc1);
 	}
 
 }
