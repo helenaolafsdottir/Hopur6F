@@ -6,6 +6,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Test fyrir CreateBookingMock
+ * @author Arna Björgvinsdóttir, Hannes Jón Ívarsson, Helena Ólafsdóttir, Sandra Gunnarsdóttir
+ */
 public class CreateBookingMockTest {
 
 	private CreateBookingMock bokun = new CreateBookingMock();
@@ -33,6 +37,9 @@ public class CreateBookingMockTest {
 		foodInfo = null;
 	}
 	
+	/**
+	 * Athugar hvort get aðferðirnar sæki rétt gildi fyrir flughlut.
+	 */
 	@Test
 	public void testCreateBooking() {
 		ArrayList<Flight> flug = bokun.createBookingMock();

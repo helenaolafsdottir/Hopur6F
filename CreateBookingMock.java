@@ -1,7 +1,15 @@
 import java.util.ArrayList;
 
+/**
+ * Mock fyrir aðgerðina CreateBooking sem býr til bókun.
+ * @author Arna Björgvinsdóttir, Hannes Jón Ívarsson, Helena Ólafsdóttir, Sandra Gunnarsdóttir
+ */
 public class CreateBookingMock {
 	
+	/**
+	 * Býr til einn flughlut
+	 * @return skilar flughlut
+	 */
 	public ArrayList<Flight> createBookingMock(){
 		ArrayList<Flight> bokadFlug = new ArrayList<Flight>(); 
 	

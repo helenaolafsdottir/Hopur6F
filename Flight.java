@@ -1,5 +1,7 @@
-import java.util.*;
-
+/**
+ * Flughlutur
+ * @author Arna Björgvinsdóttir, Hannes Jón Ívarsson, Helena Ólafsdóttir, Sandra Gunnarsdóttir
+ */
 public class Flight {
 	
 	private String departureDate;
@@ -26,10 +28,11 @@ public class Flight {
 		return this.id;
 	}
 	
-	
+
 	public void setDepartureDate(String date){
 		this.departureDate = date;
 	}
+
 	public String getDepartureDate(){
 		return this.departureDate;
 	}
@@ -110,5 +113,6 @@ public class Flight {
 	public int getTicketsAvailable(){
 		return this.ticketsAvailable;
 	}
+	
 }
 

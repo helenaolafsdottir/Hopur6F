@@ -3,41 +3,34 @@
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JTextField;
-import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.swing.JRadioButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 import java.awt.Font;
 import java.awt.event.ActionListener;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
-import java.util.Arrays;
 import java.util.ArrayList;
-import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
 import java.util.Date;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 
 
+/**
+ * Upphafs User Interface
+ * @author Arna Björgvinsdóttir, Hannes Jón Ívarsson, Helena Ólafsdóttir, Sandra Gunnarsdóttir
+ */
 public class UserInterface {
 
-	private JTextField textField_1;
 	private JFrame frame;
 	private JComboBox jBrottfararstadurComboBox;
 	private JComboBox jAfangastadurComboBox;
 	private JComboBox jFjoldiComboBox;
-	private JDateChooser jDepartureDateChooser;
-	private JDateChooser jArrivalDateChooser;
 	private String departureDateString;
 	private String arrivalDateString = null;
-	private JLabel jDateLabel1;
 	
 	Search mySearch = new Search();
 	BokaUserInterface nw = new BokaUserInterface();
@@ -117,6 +110,9 @@ public class UserInterface {
 		frame.getContentPane().add(jFjoldiComboBox);
 		
 		JDateChooser jDepartureDateChooser = new JDateChooser();
+		/*
+		 * Breytir Date breytunni frá JDepartureDateChooser í String breytu
+		 */
 		jDepartureDateChooser.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
 				Date date = jDepartureDateChooser.getDate();
@@ -138,6 +134,9 @@ public class UserInterface {
 
 		
 		JDateChooser jArrivalDateChooser = new JDateChooser();
+		/*
+		 * Breytir Date breytunni frá JArrivalDateChooser í String breytu
+		 */
 		jArrivalDateChooser.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
 				Date date = jArrivalDateChooser.getDate();
@@ -159,6 +158,9 @@ public class UserInterface {
 		jDateLabel1.setVisible(false);
 		
 		JRadioButton jRoundTripRadioButton = new JRadioButton("Round Trip");
+		/*
+		 * Birtir annað JDateChooser fyrir notanda ef hann hakar í RoundTrip.
+		 */
 		jRoundTripRadioButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(jRoundTripRadioButton.isSelected()){
@@ -176,24 +178,30 @@ public class UserInterface {
 		frame.getContentPane().add(jRoundTripRadioButton);
 		
 	} 
+	/*
+	 * Takkinn tekur inn skilyrði frá notanda, finnur laus flug sem uppfylla skilyrðin
+	 * og birtir þau fyrir notandanum.
+	 */
     private void jAframButtonActionPerformed(java.awt.event.ActionEvent e) { 
-		String departureLocation = jBrottfararstadurComboBox.getSelectedItem().toString();
+		
+    	//Sækjum upplýsingar af UI
+    	String departureLocation = jBrottfararstadurComboBox.getSelectedItem().toString();
 		String arrivalLocation = jAfangastadurComboBox.getSelectedItem().toString();
 		int numberOfPassengers = Integer.parseInt(jFjoldiComboBox.getSelectedItem().toString());
-	
-	
 		
+		//Notandi verður að fylla inn upplýsingar um dagsetningu flugsins.
 		if(departureDateString == null || arrivalDateString == "null"){
 			JOptionPane.showMessageDialog(null, "Vinsamlegast veldu viðeigandi dagsetningar.");
 		}
+		
 		else {
-			System.out.println("else");
 			ArrayList<Flight> departureFlights = mySearch.gettingCorrectSearchResults(departureLocation, arrivalLocation, numberOfPassengers, departureDateString);
 			ArrayList<Flight> arrivalFlights = new ArrayList<Flight>();
+			//Athugum hvort notandi ætli sér að bóka eitt eða tvö flug.
 			if(!(arrivalDateString == null)){
-				
 				arrivalFlights = mySearch.gettingCorrectSearchResults(arrivalLocation, departureLocation, numberOfPassengers, arrivalDateString);
 			}
+			
 			ArrayList<Flight> bokadFlug = nw.bokaFlug(departureFlights, arrivalFlights);
 		}
 	

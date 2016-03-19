@@ -4,6 +4,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Test fyrir flight klasann.
+ * @author Arna Björgvinsdóttir, Hannes Jón Ívarsson, Helena Ólafsdóttir, Sandra Gunnarsdóttir
+ */
 public class FlightTest {
 
 	Flight flug = new Flight();
@@ -42,6 +46,9 @@ public class FlightTest {
 		totPrice = 0;
 	}
 	
+	/**
+	 * Athugum hvort get aðferðirnar sækji rétt gildi.
+	 */
 	@Test
 	public void testGetNumberOfPassengers() {
 		assertEquals(numberOfPass, flug.getNumberOfPassengers());
