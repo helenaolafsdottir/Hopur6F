@@ -76,6 +76,7 @@ public class Search{
 				flight.setAirline(flightResultSet.getString("Airline"));
 				flight.setMaximumLuggageWeight(flightResultSet.getInt("MaximumLuggageWeight"));
 				flight.setTicketsAvailable(flightResultSet.getInt("TicketsAvailable"));
+				flight.setFlightNumber(flightResultSet.getString("FlightNumber"));
 
 
 				flights.add(flight);

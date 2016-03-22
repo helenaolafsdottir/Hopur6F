@@ -4,24 +4,25 @@
  */
 public class Flight {
 	
-	private String departureDate;
 	private String departureLocation;
 	private String arrivalLocation;
-	private int numberOfPassengers;
 	private int totalPrice;
 	private String departureTime;
+	private String departureDate;
 	private String arrivalTime;
 	private String duration;
+	private String flightNumber;
+	private int ticketsAvailable;
 	private String foodInfo;
 	private String airline;
 	private int maximumLuggageWeight;
-	private int id;
-	private int ticketsAvailable;
+	private int numberOfPassengers;
+	private int id;	
 	
 	public Flight(){	
 	}
 	
-	public void setID(int ids){
+	public void setID( int ids){
 		this.id = ids;
 	}
 	public int getID(){
@@ -93,6 +94,20 @@ public class Flight {
 		return this.foodInfo;
 	}
 	
+	public void setFlightNumber (String flightNumber){
+		this.flightNumber = flightNumber;
+	}
+	public String getFlightNumber(){
+		return this.flightNumber;
+	}
+	
+	public void setTicketsAvailable (int tickets){
+		this.ticketsAvailable = tickets;
+	}
+	public int getTicketsAvailable(){
+		return this.ticketsAvailable;
+	}
+	
 	public void setAirline (String airl){
 		this.airline = airl;
 	}	
@@ -107,12 +122,7 @@ public class Flight {
 		return this.maximumLuggageWeight;
 	}
 	
-	public void setTicketsAvailable (int tickets){
-		this.ticketsAvailable = tickets;
-	}
-	public int getTicketsAvailable(){
-		return this.ticketsAvailable;
-	}
+	
 	
 }
 

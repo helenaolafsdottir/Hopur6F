@@ -23,6 +23,9 @@ public class SearchMockTest {
 	private String departureDate2;
 	private String foodInfo2;
 	private int numberOfPassengers;
+	private String departureLocEmpty;
+	private String arrivalLocEmpty;
+	
 	
 	private String dateForException;
 	
@@ -39,6 +42,8 @@ public class SearchMockTest {
 		foodInfo2 = "Epli og Kók";	
 		dateForException = "01/06/2016";
 		numberOfPassengers = 1;
+		departureLocEmpty = "Siglufjörður";
+		arrivalLocEmpty = "Vestmannaeyjar";
 	}
 	
 	@After
@@ -54,6 +59,8 @@ public class SearchMockTest {
 		foodInfo2 = null;	
 		dateForException = null;
 		numberOfPassengers = 0;
+		departureLocEmpty = null;
+		arrivalLocEmpty = null;
 	}
 	
 	/**
@@ -74,7 +81,17 @@ public class SearchMockTest {
 		assertEquals(departureDate2, flug.get(1).getDepartureDate());
 		assertEquals(foodInfo2, flug.get(1).getFoodInfo());
 	}
-	
+	/**
+	 * Athugum hvort flughlutur sé réttur þó svo að engar niðurstöður finnist.
+	 */
+	@Test
+	public void testSearchMockEmpty() {
+		ArrayList<Flight> flug = mySearch.searchMock(departureDate1, numberOfPassengers, departureLocEmpty, arrivalLocEmpty);
+		
+		assertNotNull(flug); //skilum ekki null reference
+		assertEquals(0,flug.size()); //en flughluturinn er tómur
+		
+	}
 	/**
 	 * Erum bara með tvö flug í SearchMock.java, athugum hvort 
 	 * það komi rétt exception

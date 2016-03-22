@@ -5,7 +5,6 @@
  */
 public class CreateBookingMock {
 	
-	
 	/**
 	 * Býr til einn flughlut
 	 * @return skilar flughlut

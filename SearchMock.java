@@ -59,7 +59,9 @@ public class SearchMock {
 		else {
 			throw new IllegalArgumentException();
 		}
+		
 		return flug;
+		
 	}
 	
 }
